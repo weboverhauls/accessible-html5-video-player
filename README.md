@@ -73,7 +73,7 @@ new InitPxVideo({
 ```
 
 ## Live Demo
-[View Demo](https://github.paypal.com/pages/dlembree/accessible-html5-video-player/)
+[View Demo](http://paypal.github.io/accessible-html5-video-player/)
 
 ## Feedback and Contributions
 If you experience any errors or if you have ideas for improvement, please feel free to open an issue or send a pull request.
