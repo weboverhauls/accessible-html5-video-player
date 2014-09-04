@@ -100,7 +100,12 @@ You can also follow and contact the PayPal Accessibility team on Twitter: [@PayP
 - Only VTT caption files are supported (not SRT nor TTML). VTT cue settings are not supported but inline styles function (see first few lines of example).
 - The controls have a minimum width of 360px.
 
-## Copyright and License
+## Related Resources
+- [HTML5 Video Events and API](http://www.w3.org/2010/05/video/mediaevents.html) - by W3C
+- [Adding captions and subtitles to HTML5 video](https://developer.mozilla.org/en-US/Apps/Build/Audio_and_video_delivery/Adding_captions_and_subtitles_to_HTML5_video#Internet_Explorer) - by MDN
+- [Simple SubRip to WebVTT converter](https://atelier.u-sub.net/srt2vtt/) - tool to convert SRT captions to WebVTT
+- [Able Player](https://github.com/terrill/ableplayer) - accessible cross-browser media player by Terrill Thompson
 
+## Copyright and License
 Copyright 2014, eBay Software Foundation under [the BSD license](LICENSE.md).
 
