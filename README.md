@@ -6,7 +6,7 @@
 See the [Authors](#authors) section below for details.
 
 ## What is it?
-A lightweight framework to play HTML5 video on a web page including support for captions and screen reader accessiblity.
+A lightweight HTML5 video player which includes support for captions and screen reader accessibility.
 
 ## Features
 - Provides an HTML5 video player with custom controls.
