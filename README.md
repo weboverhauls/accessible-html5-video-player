@@ -6,7 +6,7 @@
 See the [Authors](#authors) section below for details.
 
 ## What is it?
-A lightweight framework to play HTML5 video on a web page including support for captions and screen reader accessiblity.
+A lightweight HTML5 video player which includes support for captions and screen reader accessibility.
 
 ## Features
 - Provides an HTML5 video player with custom controls.
@@ -73,7 +73,7 @@ new InitPxVideo({
 ```
 
 ## Live Demo
-[View Demo](https://github.paypal.com/pages/dlembree/accessible-html5-video-player/)
+[View Demo](http://paypal.github.io/accessible-html5-video-player/)
 
 ## Feedback and Contributions
 If you experience any errors or if you have ideas for improvement, please feel free to open an issue or send a pull request.
