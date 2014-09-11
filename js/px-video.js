@@ -417,10 +417,10 @@ function InitPxVideo(options) {
 		// If IE 10/11 or Firefox 31 or Safari 7, don't use native captioning (still doesn't work although they claim it's now supported)
 		if ((obj.browserName==="IE" && obj.browserMajorVersion===10) || 
 				(obj.browserName==="IE" && obj.browserMajorVersion===11) || 
-				(obj.browserName==="Firefox" && obj.browserMajorVersion===31) || 
+				(obj.browserName==="Firefox" && obj.browserMajorVersion>=31) || 
 				(obj.browserName==="Safari" && obj.browserMajorVersion===7)) {
 			if (options.debug) {
-				console.log("Detected IE 10/11 or Firefox 31 or Safari 7");
+				console.log("Detected IE 10/11 or Firefox 31+ or Safari 7");
 			}
 			// set to false so skips to 'manual' captioning
 			obj.isTextTracks = false;
