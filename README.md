@@ -6,7 +6,7 @@
 See the [Authors](#authors) section below for details.
 
 ## What is it?
-A lightweight HTML5 video player which includes support for captions and screen reader accessibility.
+A lightweight HTML5 video player which includes support for captions and screen reader accessibility. For details, read the blog post [Introducing an Accessible HTML5 Video Player](https://www.paypal-engineering.com/2014/09/05/introducing-an-accessible-html5-video-player/) on the PayPal Engineering blog.
 
 ## Features
 - Provides an HTML5 video player with custom controls.
