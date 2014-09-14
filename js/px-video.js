@@ -464,7 +464,7 @@ function InitPxVideo(options) {
 			}
 			showCaptionContainerAndButton(obj);
 
-			// Render captions from array at apppropriate time
+			// Render captions from array at appropriate time
 			obj.currentCaption = '';
 			obj.subcount = 0;
 			obj.captions = [];
