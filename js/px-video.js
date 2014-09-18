@@ -34,6 +34,7 @@ function InitPxVideo(options) {
 	// For "manual" captions, adjust caption position when play time changed (via rewind, clicking progress bar, etc.)
 	function adjustManualCaptions(obj) {
 		obj.subcount = 0;
+		obj.subcountad = 0;
 		while (video_timecode_max(obj.captions[obj.subcount][0]) < obj.movie.currentTime.toFixed(1)) {
 			obj.subcount++;
 			if (obj.subcount > obj.captions.length-1) {
@@ -211,6 +212,7 @@ function InitPxVideo(options) {
 	}
 	obj.labelMute.setAttribute("style", "margin-left:" + obj.labelMuteOffset + "px");
 
+	// Captions
 	// Get URL of caption file if exists
 	var captionSrc = "",
 		kind,
@@ -224,7 +226,6 @@ function InitPxVideo(options) {
 			}
 		}
 	}
-
 	// Record if caption file exists or not
 	obj.captionExists = true;
 	if (captionSrc === "") {
@@ -238,12 +239,39 @@ function InitPxVideo(options) {
 			console.log("Caption track found; URI: " + captionSrc);
 		}
 	}
-
 	// Set captions on/off - on by default
 	if (typeof(options.captionsOnDefault) === 'undefined') {
 		options.captionsOnDefault = true;
 	}
 	obj.isCaptionDefault = options.captionsOnDefault;
+
+	// Audio description
+	// Get URL of audio description file if exists
+	obj.audiodesc = {};
+	obj.audiodesc.url = "";
+	// use 'children' variable from caption detection above;
+
+	for (var i = 0; i < children.length; i++) {
+		if (children[i].nodeName.toLowerCase() === 'track') {
+			obj.audiodesc.kind = children[i].getAttribute('kind');
+			if (obj.audiodesc.kind === 'descriptions') {
+				obj.audiodesc.url = children[i].getAttribute('src');
+			}
+		}
+	}
+	// Record if audio description file exists or not
+	obj.audiodescExists = true;
+	if (obj.audiodesc.url === "") {
+		obj.audiodescExists = false;
+		if (options.debug) {
+			console.log("No audio description track found.");
+		}
+	}
+	else {
+		if (options.debug) {
+			console.log("Audio description track found; URI: " + obj.audiodesc.url);
+		}
+	}
 
 	// Number of seconds for rewind and forward buttons
 	if (typeof(options.seekInterval) === 'undefined') {
@@ -264,6 +292,7 @@ function InitPxVideo(options) {
 	obj.captionsContainer = obj.container.getElementsByClassName('px-video-captions')[0];
 	obj.captionsBtn = obj.container.getElementsByClassName('px-video-btnCaptions')[0];
 	obj.captionsBtnContainer = obj.container.getElementsByClassName('px-video-captions-btn-container')[0];
+	obj.audiodescContainer = obj.container.getElementsByClassName('px-video-audiodesc')[0];
 	obj.duration = obj.container.getElementsByClassName('px-video-duration')[0];
 	obj.txtSeconds = obj.container.getElementsByClassName('px-seconds');
 
@@ -300,7 +329,8 @@ function InitPxVideo(options) {
 
 		// Special handling for "manual" captions
 		if (!obj.isTextTracks) {
-			obj.subcount = 0;
+			obj.subcount = 0; // for captions
+			obj.subcountad = 0; // for audio description
 		}
 
 		// Play and ensure the play button is in correct state
@@ -529,10 +559,105 @@ function InitPxVideo(options) {
 
 		// If Safari 7, removing track from DOM [see 'turn off native caption rendering' above]
 		if (obj.browserName === "Safari" && obj.browserMajorVersion === 7) {
-			console.log("Safari 7 detected; removing track from DOM");
+			console.log("Safari 7 detected; removing track from DOM.");
 			var tracks = obj.movie.getElementsByTagName("track");
 			obj.movie.removeChild(tracks[0]);
 		}
 
 	}
+
+	// ***
+	// Audio description
+	// ***
+
+	// If audio description file exists, render in designated div
+	if (obj.audiodescExists) {
+		
+		// Rendering audio description track - native support required - http://caniuse.com/webvtt
+		// if (obj.isTextTracks) {
+		// 	var track2 = {};
+		// 	var tracks2 = obj.movie.textTracks;
+		// 	for (var j=0; j < tracks2.length; j++) {
+		// 		track2 = obj.movie.textTracks[j];
+		// 		if (track2.kind === "descriptions") {
+		// 			console.log("Audio description kind found.");
+		// 			obj.audiodescContainer.innerHTML = "Ugh!";
+		// 			//console.log("Ready state of audio desc: " + track2.readyState);
+		// 			track2.addEventListener("cuechange",function() {
+		// 				if (this.activeCues[0]) {
+		// 					console.log("Audio description cue activated.");
+		// 					if (this.activeCues[0].hasOwnProperty("text")) {
+		// 						obj.audiodescContainer.innerHTML = this.activeCues[0].text;
+		// 					}
+		// 				}
+		// 			},false);
+		// 		}
+		// 	}
+		// }
+
+
+		// Render audio description from array at apppropriate time
+		obj.currentAudiodesc = '';
+		obj.subcountad = 0;
+		obj.audiodescs = [];
+
+		obj.movie.addEventListener('timeupdate', function() {
+			// Check if the next caption is in the current time range
+			if (obj.movie.currentTime.toFixed(1) > video_timecode_min(obj.audiodescs[obj.subcountad][0]) && 
+				obj.movie.currentTime.toFixed(1) < video_timecode_max(obj.audiodescs[obj.subcountad][0])) {
+					obj.currentAudiodesc = obj.audiodescs[obj.subcountad][1];
+			}
+			// Is there a next timecode?
+			if (obj.movie.currentTime.toFixed(1) > video_timecode_max(obj.audiodescs[obj.subcountad][0]) && 
+				obj.subcountad < (obj.audiodescs.length-1)) {
+					obj.subcountad++;
+			}
+			// Render the caption
+			obj.audiodescContainer.innerHTML = obj.currentAudiodesc;
+		}, false);
+
+		if (obj.audiodesc.url != "") {
+			// Create XMLHttpRequest object
+			var xhr;
+			if (window.XMLHttpRequest) {
+				xhr = new XMLHttpRequest();
+			} else if (window.ActiveXObject) { // IE8
+				xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
+						if (options.debug) {
+							console.log("xhr = 200");
+						}
+						
+						obj.audiodescs = [];
+						var records = [], 
+							record,
+							req = xhr.responseText;
+						records = req.split('\n\n');
+						for (var r=0; r < records.length; r++) {
+							record = records[r];
+							obj.audiodescs[r] = [];
+							obj.audiodescs[r] = record.split('\n');
+						}
+						// Remove first element ("VTT")
+						obj.audiodescs.shift();
+
+						if (options.debug) {
+							console.log('Successfully loaded the audio description file via ajax.');
+						}
+					} else {
+						if (options.debug) {
+							console.log('There was a problem loading the audio description file via ajax.');
+						}
+					}
+				}
+			}
+			xhr.open("get", obj.audiodesc.url, true);
+			xhr.send();
+		}
+
+	}
+
 };
