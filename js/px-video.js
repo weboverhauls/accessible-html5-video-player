@@ -34,7 +34,6 @@ function InitPxVideo(options) {
 	// For "manual" captions, adjust caption position when play time changed (via rewind, clicking progress bar, etc.)
 	function adjustManualCaptions(obj) {
 		obj.subcount = 0;
-		obj.subcountad = 0;
 		while (video_timecode_max(obj.captions[obj.subcount][0]) < obj.movie.currentTime.toFixed(1)) {
 			obj.subcount++;
 			if (obj.subcount > obj.captions.length-1) {
@@ -328,10 +327,10 @@ function InitPxVideo(options) {
 		obj.movie.currentTime = 0;
 
 		// Special handling for "manual" captions
-		if (!obj.isTextTracks) {
+		if (!obj.isTextTracks && obj.captionExists) {
 			obj.subcount = 0; // for captions
-			obj.subcountad = 0; // for audio description
 		}
+		obj.subcountad = 0; // for audio description
 
 		// Play and ensure the play button is in correct state
 		obj.movie.play();
@@ -350,7 +349,7 @@ function InitPxVideo(options) {
 	      obj.movie.currentTime = targetTime;
 	    }
 		// Special handling for "manual" captions
-		if (!obj.isTextTracks) {
+		if (!obj.isTextTracks && obj.captionExists) {
 			adjustManualCaptions(obj);
 		}
 	}, false);
@@ -365,7 +364,7 @@ function InitPxVideo(options) {
 			obj.movie.currentTime = targetTime;
 		}
 		// Special handling for "manual" captions
-		if (!obj.isTextTracks) {
+		if (!obj.isTextTracks && obj.captionExists) {
 			adjustManualCaptions(obj);
 		}
 	}, false);
@@ -413,7 +412,7 @@ function InitPxVideo(options) {
 		obj.movie.currentTime = obj.pos * obj.movie.duration;
 		
 		// Special handling for "manual" captions
-		if (!obj.isTextTracks) {
+		if (!obj.isTextTracks && obj.captionExists) {
 			adjustManualCaptions(obj);
 		}
 	});
@@ -595,14 +594,13 @@ function InitPxVideo(options) {
 		// 	}
 		// }
 
-
 		// Render audio description from array at apppropriate time
 		obj.currentAudiodesc = '';
 		obj.subcountad = 0;
 		obj.audiodescs = [];
 
 		obj.movie.addEventListener('timeupdate', function() {
-			// Check if the next caption is in the current time range
+			// Check if the next line is in the current time range
 			if (obj.movie.currentTime.toFixed(1) > video_timecode_min(obj.audiodescs[obj.subcountad][0]) && 
 				obj.movie.currentTime.toFixed(1) < video_timecode_max(obj.audiodescs[obj.subcountad][0])) {
 					obj.currentAudiodesc = obj.audiodescs[obj.subcountad][1];
