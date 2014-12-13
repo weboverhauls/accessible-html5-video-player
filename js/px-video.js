@@ -370,7 +370,7 @@ function InitPxVideo(options) {
 
 	// Progress bar
 	obj.movie.addEventListener('timeupdate', function() {
-		obj.percent = Math.floor((100 / obj.movie.duration) * obj.movie.currentTime);
+		obj.percent = (100 / obj.movie.duration) * obj.movie.currentTime;
 		if (obj.percent > 0) {
 			obj.progressBar.value = obj.percent;
 			obj.progressBarSpan.innerHTML = obj.percent;
@@ -414,13 +414,13 @@ function InitPxVideo(options) {
 	// If caption file exists, process captions
 	else {
 
-		// If IE 10/11 or Firefox 31 or Safari 7, don't use native captioning (still doesn't work although they claim it's now supported)
+		// If IE 10/11 or Firefox 31+ or Safari 7+, don't use native captioning (still doesn't work although they claim it's now supported)
 		if ((obj.browserName==="IE" && obj.browserMajorVersion===10) || 
 				(obj.browserName==="IE" && obj.browserMajorVersion===11) || 
 				(obj.browserName==="Firefox" && obj.browserMajorVersion>=31) || 
-				(obj.browserName==="Safari" && obj.browserMajorVersion===7)) {
+				(obj.browserName==="Safari" && obj.browserMajorVersion>=7)) {
 			if (options.debug) {
-				console.log("Detected IE 10/11 or Firefox 31+ or Safari 7");
+				console.log("Detected IE 10/11 or Firefox 31+ or Safari 7+");
 			}
 			// set to false so skips to 'manual' captioning
 			obj.isTextTracks = false;
@@ -464,7 +464,7 @@ function InitPxVideo(options) {
 			}
 			showCaptionContainerAndButton(obj);
 
-			// Render captions from array at apppropriate time
+			// Render captions from array at appropriate time
 			obj.currentCaption = '';
 			obj.subcount = 0;
 			obj.captions = [];
