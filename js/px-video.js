@@ -370,7 +370,7 @@ function InitPxVideo(options) {
 
 	// Progress bar
 	obj.movie.addEventListener('timeupdate', function() {
-		obj.percent = Math.floor((100 / obj.movie.duration) * obj.movie.currentTime);
+		obj.percent = (100 / obj.movie.duration) * obj.movie.currentTime;
 		if (obj.percent > 0) {
 			obj.progressBar.value = obj.percent;
 			obj.progressBarSpan.innerHTML = obj.percent;
