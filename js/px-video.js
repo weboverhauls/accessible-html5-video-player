@@ -354,6 +354,23 @@ function InitPxVideo(options) {
 			obj.movie.muted = true;
 		}
 	}, false);
+	obj.btnMute.onkeypress = function(e) {
+		if(e.keyCode == 13){ // enter key
+			e.preventDefault();
+			if (this.checked == true) {
+				this.checked = false;
+			}
+			else {
+				this.checked = true;
+			}
+			if (obj.movie.muted === true) {
+				obj.movie.muted = false;
+			}
+			else {
+				obj.movie.muted = true;
+			}
+		}
+	}
 	
 	// Duration
 	obj.movie.addEventListener("timeupdate", function() {
@@ -405,6 +422,22 @@ function InitPxVideo(options) {
 			obj.captionsContainer.className = "px-video-captions hide";
 		}
 	}, false);
+	obj.captionsBtn.onkeypress = function(e) {
+		if(e.keyCode == 13){ // enter key
+			e.preventDefault();
+			if (this.checked == true) {
+				this.checked = false;
+			}
+			else {
+				this.checked = true;
+			}
+			if (this.checked) {
+				obj.captionsContainer.className = "px-video-captions show";
+			} else {
+				obj.captionsContainer.className = "px-video-captions hide";
+			}
+		}
+	}
 
 	// If no caption file exists, hide container for caption text
 	if (!obj.captionExists) {
