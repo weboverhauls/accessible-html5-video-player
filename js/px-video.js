@@ -447,13 +447,14 @@ function InitPxVideo(options) {
 	// If caption file exists, process captions
 	else {
 
-		// If IE 10/11 or Firefox 31+ or Safari 7+, don't use native captioning (still doesn't work although they claim it's now supported)
+		// Can't use native captioning in the follow browsers:
 		if ((obj.browserName==="IE" && obj.browserMajorVersion===10) || 
 				(obj.browserName==="IE" && obj.browserMajorVersion===11) || 
 				(obj.browserName==="Firefox" && obj.browserMajorVersion>=31) || 
+				(obj.browserName==="Chrome" && obj.browserMajorVersion===43) || 
 				(obj.browserName==="Safari" && obj.browserMajorVersion>=7)) {
 			if (options.debug) {
-				console.log("Detected IE 10/11 or Firefox 31+ or Safari 7+");
+				console.log("Detected browser unable to play HTML5 captions; using custom captions");
 			}
 			// set to false so skips to 'manual' captioning
 			obj.isTextTracks = false;
