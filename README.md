@@ -1,9 +1,5 @@
-<img src="images/logo_347x50_PPa11y.png" width="347" height="50" alt="PayPal accessibility logo" />
-
 # Accessible HTML5 Video Player
-
-## by the PayPal Accessibility Team
-See the [Authors](#authors) section below for details.
+[![paypal](https://rawgit.com/aleen42/badges/master/src/paypal.svg)](https://rawgit.com/aleen42/badges/master/src/paypal.svg)
 
 ## What is it?
 A lightweight HTML5 video player which includes support for captions and screen reader accessibility. For details, read the blog post [Introducing an Accessible HTML5 Video Player](https://www.paypal-engineering.com/2014/09/05/introducing-an-accessible-html5-video-player/) on the PayPal Engineering blog.
@@ -18,6 +14,7 @@ A lightweight HTML5 video player which includes support for captions and screen 
 - Text strings for the controls are externalized to allow for internationalization (fall 2015).
 - No dependencies. Written in "vanilla" JavaScript.
 - When JavaScript is unavailable, the browser's native controls are used.
+- React support
 
 ## Implementation
 
@@ -32,20 +29,20 @@ Insert the CSS in the Head of your HTML document. You'll also need to upload the
 Insert the HTML5 video markup in the Body of your HTML document. Replace the video, poster, and caption URLs. Modify the sizes of video and fallback image as needed.
 ```html
 <div class="px-video-container" id="myvid">
-	<div class="px-video-img-captions-container">
-		<div class="px-video-captions hide" aria-hidden="true"></div>
-		<video width="640" height="360" poster="media/foo.jpg" controls>
-			<source src="foo.mp4" type="video/mp4" />
-			<source src="foo.webm" type="video/webm" />
-			<track kind="captions" label="English captions" src="media/foo.vtt" srclang="en" default />
-			<div>
-				<a href="foo.mp4">
-					<img src="media/foo.jpg" width="640" height="360" alt="download video" />
-				</a>
-			</div>
-		</video>
-	</div>
-	<div class="px-video-controls"></div>
+    <div class="px-video-img-captions-container">
+        <div class="px-video-captions hide" aria-hidden="true"></div>
+        <video width="640" height="360" poster="media/foo.jpg" controls>
+            <source src="foo.mp4" type="video/mp4" />
+            <source src="foo.webm" type="video/webm" />
+            <track kind="captions" label="English captions" src="media/foo.vtt" srclang="en" default />
+            <div>
+                <a href="foo.mp4">
+                    <img src="media/foo.jpg" width="640" height="360" alt="download video" />
+                </a>
+            </div>
+        </video>
+    </div>
+    <div class="px-video-controls"></div>
 </div>
 ```
 
@@ -64,24 +61,23 @@ Insert two JavaScript files right before the closing Body element of your HTML d
 <script>
 // Initialize
 new InitPxVideo({
-	"videoId": "myvid",
-	"captionsOnDefault": true,
-	"seekInterval": 20,
-	"videoTitle": "clips of stand-up comedy",
-	"debug": true
+    "videoId": "myvid",
+    "captionsOnDefault": true,
+    "seekInterval": 20,
+    "videoTitle": "clips of stand-up comedy",
+    "debug": true
 });
 </script>
 ```
 
-## Live Demo
-[View Demo](http://paypal.github.io/accessible-html5-video-player/)
+### [View Demo](http://paypal.github.io/accessible-html5-video-player/)
 
 ## React Version
 The React version has been designed to be integrated into your react codebase easily. The video React component is named `PXvideo` and has the below API:
 
 ```javascript
 <PXVideo
-	sources={[
+    sources={[
     'https://www.paypalobjects.com/webstatic/mktg/videos/PayPal_AustinSMB_baseline.mp4',
     'https://www.paypalobjects.com/webstatic/mktg/videos/PayPal_AustinSMB_baseline.webm'
   ]}
@@ -108,7 +104,6 @@ A demo could be reached at: [View Demo](http://paypal.github.io/accessible-html5
 npm install // install dependencies
 npm run react // transpile .jsx into valid .js using Babel
 ```
-
 
 ## Feedback and Contributions
 If you experience any errors or if you have ideas for improvement, please feel free to open an issue or send a pull request.
@@ -148,4 +143,3 @@ The original authors of this project are:
 
 ## Copyright and License
 Copyright 2014, PayPal under [the BSD license](LICENSE.md).
-
