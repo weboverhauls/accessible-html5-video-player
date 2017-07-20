@@ -1,5 +1,6 @@
 # Accessible HTML5 Video Player
 [![paypal](https://rawgit.com/aleen42/badges/master/src/paypal.svg)](https://rawgit.com/aleen42/badges/master/src/paypal.svg)
+[![javascript](https://cdn.rawgit.com/aleen42/badges/master/src/javascript.svg)](https://cdn.rawgit.com/aleen42/badges/master/src/javascript.svg)
 
 ## What is it?
 A lightweight HTML5 video player which includes support for captions and screen reader accessibility. For details, read the blog post [Introducing an Accessible HTML5 Video Player](https://www.paypal-engineering.com/2014/09/05/introducing-an-accessible-html5-video-player/) on the PayPal Engineering blog.
