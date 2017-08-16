@@ -109,7 +109,7 @@ npm run react // transpile .jsx into valid .js using Babel
 ## Feedback and Contributions
 If you experience any errors or if you have ideas for improvement, please feel free to open an issue or send a pull request.
 
-You can also follow and contact the PayPal Accessibility team on Twitter: [@PayPalInclusive](https://twitter.com/paypalinclusive)
+~~You can also follow and contact the PayPal Accessibility team on Twitter: [@PayPalInclusive](https://twitter.com/paypalinclusive)~~ No longer exists.
 
 ## Authors
 The original authors of this project are:
